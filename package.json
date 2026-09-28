@@ -1,0 +1,16 @@
+{
+  "name": "bearing-shop",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "dev": "concurrently -n WEB,API \"npm run dev -w @bearing/web\" \"npm run start:dev -w @bearing/api\"",
+    "build": "npm run build -w @bearing/web && npm run build -w @bearing/api",
+    "db:generate": "npm run prisma:generate -w @bearing/api",
+    "db:push": "npm run prisma:push -w @bearing/api",
+    "db:seed": "npm run prisma:seed -w @bearing/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

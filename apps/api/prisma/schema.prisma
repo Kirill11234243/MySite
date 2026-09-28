@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum AnalogRelationType {
+  EXACT
+  COMPATIBLE
+  ALTERNATIVE
+  PREMIUM
+  BUDGET
+}
+
+model Brand {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  slug     String    @unique
+  products Product[]
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  products Product[]
+}
+
+model Product {
+  id                    String                 @id @default(cuid())
+  sku                   String                 @unique
+  designation           String
+  designationNormalized String
+  description           String?
+  status                ProductStatus          @default(ACTIVE)
+  brandId               String
+  categoryId            String
+  brand                 Brand                  @relation(fields: [brandId], references: [id])
+  category              Category               @relation(fields: [categoryId], references: [id])
+  specification         BearingSpecification?
+  offers                SupplierOffer[]
+  analogsFrom           ProductAnalog[]        @relation("ProductAnalogSource")
+  analogsTo             ProductAnalog[]        @relation("ProductAnalogTarget")
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+
+  @@index([designationNormalized])
+  @@index([brandId, designationNormalized])
+}
+
+model BearingSpecification {
+  id              String  @id @default(cuid())
+  productId       String  @unique
+  innerDiameter   Float
+  outerDiameter   Float
+  width           Float
+  sealType        String?
+  clearance       String?
+  precisionClass  String?
+  cageMaterial    String?
+  dynamicLoad     Float?
+  staticLoad      Float?
+  maxRpm          Int?
+  product         Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([innerDiameter, outerDiameter, width])
+}
+
+model Supplier {
+  id     String          @id @default(cuid())
+  name   String
+  code   String          @unique
+  offers SupplierOffer[]
+}
+
+model SupplierOffer {
+  id            String   @id @default(cuid())
+  productId     String
+  supplierId    String
+  purchasePrice Decimal  @db.Decimal(12, 2)
+  salePrice     Decimal  @db.Decimal(12, 2)
+  stock         Int      @default(0)
+  active        Boolean  @default(true)
+  updatedAt     DateTime @updatedAt
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  supplier      Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, supplierId])
+  @@index([productId, active, salePrice])
+}
+
+model ProductAnalog {
+  id              String             @id @default(cuid())
+  productId       String
+  analogProductId String
+  relationType    AnalogRelationType
+  product         Product            @relation("ProductAnalogSource", fields: [productId], references: [id], onDelete: Cascade)
+  analogProduct   Product            @relation("ProductAnalogTarget", fields: [analogProductId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, analogProductId])
+}
