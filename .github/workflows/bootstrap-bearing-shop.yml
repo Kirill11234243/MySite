@@ -1,0 +1,29 @@
+name: Bootstrap Bearing Shop MVP
+
+on:
+  push:
+    branches:
+      - bearing-shop-mvp
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    if: contains(github.event.head_commit.message, 'bootstrap archive')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: bearing-shop-mvp
+      - name: Unpack project
+        run: |
+          mkdir -p /tmp/bearing-shop
+          unzip -q bearing-shop-mvp.zip -d /tmp/bearing-shop
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a /tmp/bearing-shop/. .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: add bearing shop MVP"
+          git push origin HEAD:bearing-shop-mvp
