@@ -10,16 +10,18 @@ permissions:
 
 jobs:
   unpack:
-    if: contains(github.event.head_commit.message, 'bootstrap archive')
+    if: contains(github.event.head_commit.message, 'assemble chunks')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: bearing-shop-mvp
-      - name: Unpack project
+      - name: Assemble and unpack project
         run: |
+          cat .bootstrap/part*.txt | base64 -d > /tmp/bearing-shop.zip
+          unzip -t /tmp/bearing-shop.zip
           mkdir -p /tmp/bearing-shop
-          unzip -q bearing-shop-mvp.zip -d /tmp/bearing-shop
+          unzip -q /tmp/bearing-shop.zip -d /tmp/bearing-shop
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           cp -a /tmp/bearing-shop/. .
           git config user.name "github-actions[bot]"
