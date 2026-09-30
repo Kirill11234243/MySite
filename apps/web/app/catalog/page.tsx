@@ -1,5 +1,12 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { apiUrl } from '../../lib/api';
+
+export const metadata: Metadata = {
+  title: 'Каталог подшипников с ценами и остатками',
+  description: 'Каталог подшипников PODSH_UL: поиск по обозначению, цены за штуку, наличие и поставка по всей России.',
+  alternates: { canonical: '/catalog' },
+};
 
 type Product = {
   id: string;
