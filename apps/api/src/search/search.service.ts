@@ -28,23 +28,22 @@ export class SearchService {
       });
     }
 
-    const normalized = this.normalizeDesignation(q);
     const tokens = q.split(/\s+/).filter(Boolean);
     return this.prisma.product.findMany({
       where: {
         status: 'ACTIVE',
-        OR: [
-          { designationNormalized: { contains: normalized, mode: 'insensitive' } },
-          { designation: { contains: q, mode: 'insensitive' } },
-          { brand: { name: { contains: tokens[0] || q, mode: 'insensitive' } } },
-        ],
+        AND: tokens.map(token => ({ OR: [
+          { designationNormalized: { contains: this.normalizeDesignation(token), mode: 'insensitive' as const } },
+          { designation: { contains: token, mode: 'insensitive' as const } },
+          { brand: { name: { contains: token, mode: 'insensitive' as const } } },
+        ] })),
       },
       include: {
         brand: true,
         specification: true,
         offers: { where: { active: true }, orderBy: { salePrice: 'asc' } },
       },
-      take: 50,
+      orderBy: [{ designation: 'asc' }, { id: 'asc' }],
     });
   }
 
@@ -53,7 +52,7 @@ export class SearchService {
   }
 
   private parseDimensions(value: string) {
-    const match = value.replace(/,/g, '.').match(/(\d+(?:\.\d+)?)\s*[xх×*]\s*(\d+(?:\.\d+)?)\s*[xх×*]\s*(\d+(?:\.\d+)?)/i);
+    const match = value.replace(/,/g, '.').match(/^(\d+(?:\.\d+)?)\s*[xх×*]\s*(\d+(?:\.\d+)?)\s*[xх×*]\s*(\d+(?:\.\d+)?)$/i);
     if (!match) return null;
     return { d: Number(match[1]), D: Number(match[2]), B: Number(match[3]) };
   }

@@ -8,7 +8,12 @@
     "start": "node dist/main.js",
     "prisma:generate": "dotenv -e ../../.env -- prisma generate",
     "prisma:push": "dotenv -e ../../.env -- prisma db push",
-    "prisma:seed": "dotenv -e ../../.env -- tsx prisma/seed.ts"
+    "prisma:seed": "dotenv -e ../../.env -- tsx prisma/seed.ts",
+    "prisma:import": "dotenv -e ../../.env -- tsx prisma/import-catalog.ts",
+    "prisma:push:prod": "prisma db push",
+    "prisma:import:prod": "tsx prisma/import-catalog.ts ../../data/catalog.xlsx",
+    "prisma:studio": "dotenv -e ../../.env -- prisma studio",
+    "test:import": "tsx --test prisma/read-catalog.test.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.20",
@@ -16,15 +21,16 @@
     "@nestjs/core": "^11.0.20",
     "@nestjs/platform-express": "^11.0.20",
     "@prisma/client": "^6.7.0",
+    "exceljs": "^4.4.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.7",
     "@types/node": "^22.15.3",
+    "dotenv-cli": "^8.0.0",
     "prisma": "^6.7.0",
     "tsx": "^4.19.4",
-    "typescript": "^5.8.3",
-    "dotenv-cli": "^8.0.0"
+    "typescript": "^5.8.3"
   }
 }

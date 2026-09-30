@@ -1,18 +1,17 @@
 import Link from 'next/link';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+import { apiUrl } from '../lib/api';
 
 type Product = {
   id: string;
   designation: string;
   brand: { name: string };
   specification?: { innerDiameter: number; outerDiameter: number; width: number } | null;
-  offers: Array<{ salePrice: number; stock: number }>;
+  offers: Array<{ salePrice: number | string; stock: number; currency: string }>;
 };
 
 async function getProducts(): Promise<Product[]> {
   try {
-    const response = await fetch(`${API_URL}/products`, { cache: 'no-store' });
+    const response = await fetch(apiUrl('/products'), { cache: 'no-store' });
     if (!response.ok) return [];
     return response.json();
   } catch {
@@ -28,7 +27,7 @@ export default async function Home() {
         <div className="container">
           <div className="kicker">Технический каталог подшипников</div>
           <h1>Найти подшипник по номеру или размерам.</h1>
-          <p>Введите 6205-2RS, SKF 6205 или размеры 25x52x15. MVP уже умеет искать по каталогу PostgreSQL.</p>
+          <p>Введите обозначение подшипника или его часть. В каталоге указаны цены за штуку и текущие остатки.</p>
           <form className="search" action="/catalog">
             <input name="q" placeholder="Например: 6205-2RS или 25x52x15" />
             <button className="button" type="submit">Найти</button>
@@ -56,7 +55,7 @@ export default async function Home() {
                         ? `${product.specification.innerDiameter} × ${product.specification.outerDiameter} × ${product.specification.width} мм`
                         : 'Размеры уточняются'}
                     </div>
-                    <div className="price">{best ? `${Number(best.salePrice).toFixed(2)} €` : 'Цена по запросу'}</div>
+                    <div className="price">{best ? `${new Intl.NumberFormat('ru-RU', { style: 'currency', currency: best.currency }).format(Number(best.salePrice))} / шт.` : 'Цена по запросу'}</div>
                   </Link>
                 );
               })}

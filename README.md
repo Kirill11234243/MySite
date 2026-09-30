@@ -7,7 +7,7 @@
 - Next.js + TypeScript — витрина
 - NestJS — API
 - PostgreSQL + Prisma — каталог
-- Meilisearch — подготовлен для поиска
+- Поиск — через PostgreSQL, отдельный контейнер не требуется
 - Docker Compose — локальная инфраструктура
 
 ## Уже работает в коде
@@ -34,7 +34,7 @@ git switch bearing-shop-mvp
 
 Windows PowerShell:
 ```powershell
-Copy-Item .env.example .env
+if (!(Test-Path .env)) { Copy-Item .env.example .env }
 ```
 
 macOS / Linux:
@@ -48,7 +48,7 @@ npm install
 docker compose up -d
 npm run db:generate
 npm run db:push
-npm run db:seed
+npm run db:import
 npm run dev
 ```
 
@@ -64,3 +64,8 @@ npm run dev
 ```
 
 Подробная инструкция: `START-HERE-RU.md`.
+
+Публикация в интернете через Render: `DEPLOY-RENDER-RU.md`. Конфигурация находится в `render.yaml`.
+
+
+Данные каталога: data/catalog.xlsx. Повторный импорт: npm run db:import. Цены — рубли за штуку. Единственный контейнер этой копии — PostgreSQL на порту 5433. Витрина и API работают через Node.js на Windows. Для обычного запуска можно использовать start.cmd. Подробности: START-HERE-RU.md.

@@ -8,7 +8,11 @@
     "build": "npm run build -w @bearing/web && npm run build -w @bearing/api",
     "db:generate": "npm run prisma:generate -w @bearing/api",
     "db:push": "npm run prisma:push -w @bearing/api",
-    "db:seed": "npm run prisma:seed -w @bearing/api"
+    "db:seed": "npm run prisma:seed -w @bearing/api",
+    "db:import": "npm run prisma:import -w @bearing/api --",
+    "db:studio": "npm run prisma:studio -w @bearing/api",
+    "start:api:render": "npm run prisma:push:prod -w @bearing/api && npm run prisma:import:prod -w @bearing/api && npm run start -w @bearing/api",
+    "test:import": "npm run test:import -w @bearing/api"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

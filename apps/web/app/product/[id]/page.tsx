@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+import { apiUrl } from '../../../lib/api';
 
 async function getProduct(id: string) {
   try {
-    const response = await fetch(`${API_URL}/products/${id}`, { cache: 'no-store' });
+    const response = await fetch(apiUrl(`/products/${id}`), { cache: 'no-store' });
     if (!response.ok) return null;
     return response.json();
   } catch { return null; }
@@ -34,7 +33,8 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
         </div>
         <aside className="panel">
           <div className="kicker">Лучшее предложение</div>
-          <div className="price">{best ? `${Number(best.salePrice).toFixed(2)} €` : 'По запросу'}</div>
+          <div className="price">{best ? new Intl.NumberFormat('ru-RU', { style: 'currency', currency: best.currency }).format(Number(best.salePrice)) : 'По запросу'}</div>
+          <p className="muted">Цена за 1 шт.</p>
           <p className="muted">В наличии: {product.offers.reduce((sum: number, offer: { stock: number }) => sum + offer.stock, 0)} шт.</p>
           <button className="button" type="button" style={{ width: '100%' }}>Корзина — следующий этап</button>
         </aside>
