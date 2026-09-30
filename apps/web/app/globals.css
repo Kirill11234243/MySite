@@ -38,6 +38,12 @@ a { color: inherit; text-decoration: none; }
 .trust-grid span { position: absolute; left: 0; top: 31px; color: #a66b00; font-weight: 900; font-size: 13px; }
 .trust-grid strong { display: block; margin-bottom: 7px; }
 .trust-grid p { margin: 0; color: #657085; line-height: 1.45; font-size: 14px; }
+.seo-section { background: white; padding: 48px 0; border-bottom: 1px solid #e1e6ef; }
+.seo-copy { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: start; }
+.seo-copy h2 { margin: 8px 0 0; font-size: 34px; line-height: 1.1; letter-spacing: -.035em; }
+.seo-copy-text { color: #4f5d73; font-size: 17px; line-height: 1.7; }
+.seo-copy-text p { margin: 0 0 14px; }
+.seo-copy-text p:last-child { margin-bottom: 0; }
 .section { padding: 44px 0; }
 .section h2 { font-size: 30px; letter-spacing: -.03em; }
 .section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 20px; }
@@ -78,9 +84,16 @@ a { color: inherit; text-decoration: none; }
 .cta-card p { margin: 0; color: #c9d2e2; line-height: 1.55; }
 .cta-card .kicker { color: #ffdc66; }
 .cta-actions { display: flex; flex-wrap: wrap; gap: 10px; flex-shrink: 0; }
+.faq-section { background: #edf1f7; }
+.faq-section h2 { margin: 8px 0 22px; }
+.faq-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.faq-list details { background: white; border: 1px solid #dde3ed; border-radius: 14px; padding: 0 18px; }
+.faq-list summary { cursor: pointer; font-weight: 800; padding: 18px 26px 18px 0; position: relative; }
+.faq-list summary::marker { color: #a66b00; }
+.faq-list p { color: #5a6679; line-height: 1.6; margin: 0; padding: 0 0 18px; }
 a:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px solid #a66b00; outline-offset: 3px; }
 @media (max-width: 800px) {
-  .grid, .product-layout, .hero-layout { grid-template-columns: 1fr; }
+  .grid, .product-layout, .hero-layout, .seo-copy, .faq-list { grid-template-columns: 1fr; }
   .header { padding: 14px 0; }
   .header-row { gap: 16px; }
   .nav { gap: 16px; }
@@ -103,6 +116,9 @@ a:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible
   .trust-grid > div { border-right: 0; border-bottom: 1px solid #e1e6ef; padding: 20px 12px 20px 48px; }
   .trust-grid > div:last-child { border-bottom: 0; }
   .trust-grid span { left: 4px; top: 23px; }
+  .seo-section { padding: 36px 0; }
+  .seo-copy { gap: 22px; }
+  .seo-copy h2 { font-size: 29px; }
   .section-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
   .cta-card { align-items: flex-start; flex-direction: column; padding: 28px; }
   .cta-actions { width: 100%; }

@@ -7,16 +7,16 @@ const siteUrl = process.env.SITE_URL || (process.env.SITE_HOST ? `https://${proc
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Подшипники в наличии с доставкой по России | PODSH_UL',
+    default: 'Купить подшипники с доставкой по России | PODSH_UL',
     template: '%s | PODSH_UL',
   },
-  description: 'Каталог подшипников PODSH_UL: актуальные цены за штуку, остатки и поставка по всей России.',
+  description: 'Купить подшипники в каталоге PODSH_UL: 2 234 позиции, актуальные цены за штуку, остатки и поставка по всей России.',
   openGraph: {
     type: 'website',
     locale: 'ru_RU',
     siteName: 'PODSH_UL',
-    title: 'Подшипники в наличии с доставкой по России | PODSH_UL',
-    description: 'Более 2 200 позиций с актуальными ценами и остатками. Поставка по всей России.',
+    title: 'Купить подшипники с доставкой по России | PODSH_UL',
+    description: 'Каталог из 2 234 подшипников с актуальными ценами и остатками. Поставка по всей России.',
     url: siteUrl,
   },
 };

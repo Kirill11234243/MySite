@@ -3,10 +3,29 @@ import type { Metadata } from 'next';
 import { apiUrl } from '../lib/api';
 
 export const metadata: Metadata = {
-  title: 'Подшипники в наличии с доставкой по России',
-  description: 'Более 2 200 подшипников с актуальными ценами и остатками. Поиск по обозначению и поставка по всей России.',
+  title: 'Купить подшипники с доставкой по России',
+  description: 'Каталог из 2 234 подшипников: актуальные цены за штуку, остатки, поиск по обозначению и поставка по всей России.',
   alternates: { canonical: '/' },
 };
+
+const faqItems = [
+  {
+    question: 'Как найти нужный подшипник?',
+    answer: 'Введите полное обозначение или его часть в строку поиска. Например: 6205, 2-36114Л или 3ГПЗ.',
+  },
+  {
+    question: 'Как узнать цену и наличие?',
+    answer: 'Цена за одну штуку и текущий остаток указаны в каталоге и в карточке каждого подшипника.',
+  },
+  {
+    question: 'Куда вы отправляете подшипники?',
+    answer: 'PODSH_UL поставляет подшипники по всей России. Детали отправки можно уточнить по телефону или электронной почте.',
+  },
+  {
+    question: 'Как оформить запрос?',
+    answer: 'Позвоните по номеру 8-902-355-23-28 или напишите на podsh_ul@mail.ru и сообщите обозначение и нужное количество.',
+  },
+];
 
 type Product = {
   id: string;
@@ -30,11 +49,25 @@ export default async function Home() {
   const products = await getProducts();
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqItems.map((item) => ({
+              '@type': 'Question',
+              name: item.question,
+              acceptedAnswer: { '@type': 'Answer', text: item.answer },
+            })),
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
       <section className="hero">
         <div className="container hero-layout">
           <div>
             <div className="kicker hero-kicker">Подшипники в наличии</div>
-            <h1>Подшипники с актуальными ценами и остатками</h1>
+            <h1>Купить подшипники с актуальными ценами и остатками</h1>
             <p>Более 2 200 позиций в каталоге. Введите обозначение, проверьте цену и наличие — отправляем заказы по всей России.</p>
             <form className="search" action="/catalog">
               <input name="q" aria-label="Обозначение подшипника" placeholder="Например: 6205, 2-36114Л или 3ГПЗ" />
@@ -57,6 +90,18 @@ export default async function Home() {
           <div><span>01</span><strong>Поиск по маркировке</strong><p>Введите полное обозначение или только его часть.</p></div>
           <div><span>02</span><strong>Остатки и цены</strong><p>Сразу видно количество и стоимость за одну штуку.</p></div>
           <div><span>03</span><strong>Связь напрямую</strong><p>Уточните детали по телефону или электронной почте.</p></div>
+        </div>
+      </section>
+      <section className="seo-section">
+        <div className="container seo-copy">
+          <div>
+            <div className="kicker">Каталог PODSH_UL</div>
+            <h2>Подшипники в наличии с ценами за штуку</h2>
+          </div>
+          <div className="seo-copy-text">
+            <p>В каталоге PODSH_UL собрано 2 234 позиции. Для каждого подшипника указаны обозначение, цена и доступное количество. Найти нужную позицию можно по полной маркировке, её части или производителю.</p>
+            <p>Если нужного обозначения нет в выдаче, свяжитесь с нами: проверим запрос и уточним условия поставки. Отправляем подшипники заказчикам по всей России.</p>
+          </div>
         </div>
       </section>
       <section className="section">
@@ -92,6 +137,20 @@ export default async function Home() {
               })}
             </div>
           )}
+        </div>
+      </section>
+      <section className="section faq-section">
+        <div className="container">
+          <div className="kicker">Ответы на вопросы</div>
+          <h2>Покупка и поиск подшипников</h2>
+          <div className="faq-list">
+            {faqItems.map((item) => (
+              <details key={item.question}>
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
       <section className="cta-section">
