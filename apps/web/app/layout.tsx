@@ -6,7 +6,7 @@ const siteUrl = process.env.SITE_URL || (process.env.SITE_HOST ? `https://${proc
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Каталог подшипников',
+  title: 'PODSH_UL — каталог подшипников',
   description: 'Подшипники в наличии: обозначения, цены за штуку и остатки.',
 };
 
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <header className="header">
           <div className="container header-row">
-            <Link className="logo" href="/">BEARING SHOP</Link>
+            <Link className="logo" href="/" aria-label="PODSH_UL — главная">PODSH_UL</Link>
             <nav className="nav">
               <Link href="/catalog">Каталог</Link>
               <a href="#contacts">Контакты</a>

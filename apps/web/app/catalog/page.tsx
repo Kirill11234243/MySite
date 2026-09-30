@@ -67,17 +67,17 @@ export default async function Catalog({ searchParams }: { searchParams: Promise<
         </form>
         <p className="muted" id="search-help">Можно ввести часть обозначения или несколько слов в любом порядке. Регистр и лишние пробелы не важны. Размеры ищите в формате 25×52×15, если они заполнены в карточке.</p>
         {result === null ? <p role="alert">Не удалось загрузить каталог. Попробуйте обновить страницу чуть позже.</p> : <p aria-live="polite">Найдено: {products.length.toLocaleString('ru-RU')}{products.length > 0 && ` · Показаны ${(page - 1) * 50 + 1}–${Math.min(page * 50, products.length)}`}</p>}
-        <div className="table-scroll">
-        <table className="table">
+        <div className="table-scroll catalog-table-wrap">
+        <table className="table catalog-table">
           <thead><tr><th>Обозначение</th><th>Бренд</th><th>Размер</th><th>Цена за шт.</th><th>Остаток</th></tr></thead>
           <tbody>
             {visible.map((p) => (
               <tr key={p.id}>
-                <td><Link href={`/product/${p.id}`}><strong>{p.designation}</strong></Link></td>
-                <td>{p.brand.name}</td>
-                <td>{p.specification ? `${p.specification.innerDiameter}×${p.specification.outerDiameter}×${p.specification.width}` : '—'}</td>
-                <td>{p.offers[0] ? new Intl.NumberFormat('ru-RU', { style: 'currency', currency: p.offers[0].currency }).format(Number(p.offers[0].salePrice)) : '—'}</td>
-                <td>{p.offers.reduce((sum, offer) => sum + offer.stock, 0)} шт.</td>
+                <td data-label="Обозначение"><Link href={`/product/${p.id}`}><strong>{p.designation}</strong></Link></td>
+                <td data-label="Бренд">{p.brand.name}</td>
+                <td data-label="Размер">{p.specification ? `${p.specification.innerDiameter}×${p.specification.outerDiameter}×${p.specification.width}` : '—'}</td>
+                <td data-label="Цена за шт.">{p.offers[0] ? new Intl.NumberFormat('ru-RU', { style: 'currency', currency: p.offers[0].currency }).format(Number(p.offers[0].salePrice)) : '—'}</td>
+                <td data-label="Остаток">{p.offers.reduce((sum, offer) => sum + offer.stock, 0)} шт.</td>
               </tr>
             ))}
           </tbody>
