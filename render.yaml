@@ -1,27 +1,5 @@
 services:
   - type: web
-    name: podsh-ul-api
-    runtime: node
-    region: frankfurt
-    plan: free
-    branch: bearing-shop-mvp
-    buildCommand: npm ci && npm run db:generate && npm run build -w @bearing/api
-    startCommand: npm run start:api:render
-    healthCheckPath: /health
-    envVars:
-      - key: NODE_VERSION
-        value: "22"
-      - key: DATABASE_URL
-        fromDatabase:
-          name: podsh-ul-db
-          property: connectionString
-      - key: WEB_HOST
-        fromService:
-          name: podsh-ul
-          type: web
-          envVarKey: RENDER_EXTERNAL_HOSTNAME
-
-  - type: web
     name: podsh-ul
     runtime: node
     region: frankfurt
@@ -29,26 +7,12 @@ services:
     branch: bearing-shop-mvp
     buildCommand: npm ci && npm run build -w @bearing/web
     startCommand: npm run start -w @bearing/web
-    healthCheckPath: /catalog
+    healthCheckPath: /contacts
     envVars:
       - key: NODE_VERSION
         value: "22"
-      - key: API_HOST
-        fromService:
-          name: podsh-ul-api
-          type: web
-          envVarKey: RENDER_EXTERNAL_HOSTNAME
       - key: SITE_HOST
         fromService:
           name: podsh-ul
           type: web
           envVarKey: RENDER_EXTERNAL_HOSTNAME
-
-databases:
-  - name: podsh-ul-db
-    region: frankfurt
-    plan: free
-    postgresMajorVersion: "16"
-    databaseName: bearing_shop
-    user: bearing
-    ipAllowList: []

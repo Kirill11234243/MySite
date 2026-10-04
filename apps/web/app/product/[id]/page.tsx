@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { fetchApiJson } from '../../../lib/api';
+import { getCatalogProduct } from '../../../lib/catalog';
 
 const siteUrl = process.env.SITE_URL || (process.env.SITE_HOST ? `https://${process.env.SITE_HOST}` : 'http://localhost:3000');
 
 async function getProduct(id: string) {
-  return fetchApiJson<any>(`/products/${id}`);
+  return getCatalogProduct(id);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {

@@ -1,71 +1,36 @@
-# Bearing Shop MVP
+# PODSH_UL
 
-Кастомный MVP интернет-магазина подшипников.
+Публичный каталог подшипников с поиском, ценами и остатками. Витрина написана на Next.js, а товары читаются из `data/catalog.xlsx`. Для обычной работы база данных и отдельный API не нужны.
 
-## Стек
+## Запуск на компьютере
 
-- Next.js + TypeScript — витрина
-- NestJS — API
-- PostgreSQL + Prisma — каталог
-- Поиск — через PostgreSQL, отдельный контейнер не требуется
-- Docker Compose — локальная инфраструктура
+Установите Node.js 22 или новее. После первого скачивания проекта выполните:
 
-## Уже работает в коде
-
-- каталог и карточка товара
-- поиск по артикулу
-- поиск по размерам, например `25x52x15`
-- бренды, категории, характеристики
-- поставщики, цены и остатки
-- связи аналогов
-- демо-данные SKF / FAG / NSK
-
-## Первый запуск
-
-Установите Node.js 22 LTS, Docker Desktop, Git и VS Code.
-
-```bash
-git clone https://github.com/Kirill11234243/MySite.git
-cd MySite
-git switch bearing-shop-mvp
-```
-
-Создайте `.env` из примера:
-
-Windows PowerShell:
 ```powershell
-if (!(Test-Path .env)) { Copy-Item .env.example .env }
+npm.cmd install
 ```
 
-macOS / Linux:
-```bash
-cp .env.example .env
+Затем дважды щёлкните `start.cmd` или запустите:
+
+```powershell
+npm.cmd run dev
 ```
 
-Затем:
-```bash
-npm install
-docker compose up -d
-npm run db:generate
-npm run db:push
-npm run db:import
-npm run dev
-```
+Откройте http://localhost:3000. Docker Desktop запускать не требуется.
 
-Откройте http://localhost:3000
+## Обновление каталога
 
-API: http://localhost:4000
+Откройте `data/catalog.xlsx`. На первом листе находятся обозначение, количество и цена за штуку в рублях. Сохраните таблицу и перезапустите сайт. Чтобы посетители увидели изменения, отправьте обновлённый файл в GitHub и разверните новую версию на Render.
 
-## Следующие запуски
+## Основные файлы
 
-```bash
-docker compose up -d
-npm run dev
-```
+| Что менять | Файл |
+| --- | --- |
+| Товары, цены, остатки | `data/catalog.xlsx` |
+| Главная | `apps/web/app/page.tsx` |
+| Каталог и сортировка | `apps/web/app/catalog/page.tsx` |
+| Карточка товара | `apps/web/app/product/[id]/page.tsx` |
+| Оформление | `apps/web/app/globals.css` |
+| Контакты и общая шапка | `apps/web/app/layout.tsx` |
 
-Подробная инструкция: `START-HERE-RU.md`.
-
-Публикация в интернете через Render: `DEPLOY-RENDER-RU.md`. Конфигурация находится в `render.yaml`.
-
-
-Данные каталога: data/catalog.xlsx. Повторный импорт: npm run db:import. Цены — рубли за штуку. Единственный контейнер этой копии — PostgreSQL на порту 5433. Витрина и API работают через Node.js на Windows. Для обычного запуска можно использовать start.cmd. Подробности: START-HERE-RU.md.
+Подробности находятся в `START-HERE-RU.md`, публикация — в `DEPLOY-RENDER-RU.md`.

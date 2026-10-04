@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { fetchApiJson } from '../lib/api';
+import { getCatalogProducts, type CatalogProduct } from '../lib/catalog';
 
 export const metadata: Metadata = {
   title: 'Купить подшипники с доставкой по России',
@@ -27,16 +27,13 @@ const faqItems = [
   },
 ];
 
-type Product = {
-  id: string;
-  designation: string;
-  brand: { name: string };
-  specification?: { innerDiameter: number; outerDiameter: number; width: number } | null;
-  offers: Array<{ salePrice: number | string; stock: number; currency: string }>;
-};
-
-async function getProducts(): Promise<Product[]> {
-  return await fetchApiJson<Product[]>('/products') || [];
+async function getProducts(): Promise<CatalogProduct[]> {
+  try {
+    return await getCatalogProducts();
+  } catch (error) {
+    console.error('Не удалось прочитать локальный каталог', error);
+    return [];
+  }
 }
 
 export default async function Home() {

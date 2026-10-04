@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { fetchApiJson } from '../../lib/api';
+import { searchCatalogProducts, type CatalogProduct } from '../../lib/catalog';
 
 export const metadata: Metadata = {
   title: 'Каталог подшипников с ценами и остатками',
@@ -8,17 +8,13 @@ export const metadata: Metadata = {
   alternates: { canonical: '/catalog' },
 };
 
-type Product = {
-  id: string;
-  designation: string;
-  brand: { name: string };
-  specification?: { innerDiameter: number; outerDiameter: number; width: number } | null;
-  offers: Array<{ salePrice: number | string; stock: number; currency: string }>;
-};
-
-async function searchProducts(q: string): Promise<Product[] | null> {
-  const path = q ? `/search?q=${encodeURIComponent(q)}` : '/products';
-  return fetchApiJson<Product[]>(path);
+async function searchProducts(q: string): Promise<CatalogProduct[] | null> {
+  try {
+    return await searchCatalogProducts(q);
+  } catch (error) {
+    console.error('Не удалось прочитать локальный каталог', error);
+    return null;
+  }
 }
 
 export default async function Catalog({ searchParams }: { searchParams: Promise<{ q?: string; sort?: string; page?: string }> }) {

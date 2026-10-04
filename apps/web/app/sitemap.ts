@@ -1,14 +1,11 @@
 import type { MetadataRoute } from 'next';
-import { fetchApiJson } from '../lib/api';
-
-type SitemapProduct = { id: string; updatedAt?: string };
+import { getCatalogProducts } from '../lib/catalog';
 
 export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.SITE_URL || (process.env.SITE_HOST ? `https://${process.env.SITE_HOST}` : 'http://localhost:3000');
-  let products: SitemapProduct[] = [];
-  products = await fetchApiJson<SitemapProduct[]>('/products') || [];
+  const products = await getCatalogProducts();
   return [
     { url: siteUrl, changeFrequency: 'weekly', priority: 1 },
     { url: `${siteUrl}/catalog`, changeFrequency: 'daily', priority: 0.9 },
@@ -16,7 +13,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/contacts`, changeFrequency: 'monthly', priority: 0.6 },
     ...products.map((product) => ({
       url: `${siteUrl}/product/${product.id}`,
-      lastModified: product.updatedAt ? new Date(product.updatedAt) : undefined,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     })),
