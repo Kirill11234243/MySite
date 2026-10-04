@@ -30,12 +30,37 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: 'PODSH_UL',
-              url: siteUrl,
-              email: 'podsh_ul@mail.ru',
-              telephone: ['+7-8422-40-44-35', '+7-902-355-23-28'],
-              areaServed: { '@type': 'Country', name: 'Россия' },
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  '@id': `${siteUrl}/#organization`,
+                  name: 'PODSH_UL',
+                  url: siteUrl,
+                  email: 'podsh_ul@mail.ru',
+                  telephone: ['+7-8422-40-44-35', '+7-902-355-23-28'],
+                  areaServed: { '@type': 'Country', name: 'Россия' },
+                  contactPoint: {
+                    '@type': 'ContactPoint',
+                    telephone: '+7-902-355-23-28',
+                    contactType: 'sales',
+                    areaServed: 'RU',
+                    availableLanguage: 'Russian',
+                  },
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': `${siteUrl}/#website`,
+                  url: siteUrl,
+                  name: 'PODSH_UL',
+                  inLanguage: 'ru-RU',
+                  publisher: { '@id': `${siteUrl}/#organization` },
+                  potentialAction: {
+                    '@type': 'SearchAction',
+                    target: `${siteUrl}/catalog?q={search_term_string}`,
+                    'query-input': 'required name=search_term_string',
+                  },
+                },
+              ],
             }).replace(/</g, '\\u003c'),
           }}
         />
@@ -44,7 +69,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Link className="logo" href="/" aria-label="PODSH_UL — главная">PODSH_UL</Link>
             <nav className="nav">
               <Link href="/catalog">Каталог</Link>
-              <a href="#contacts">Контакты</a>
+              <Link href="/delivery">Доставка</Link>
+              <Link href="/contacts">Контакты</Link>
             </nav>
           </div>
         </header>
@@ -58,6 +84,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <p>Телефон: <a href="tel:+79023552328">8-902-355-23-28</a></p>
               <p>E-mail: <a href="mailto:podsh_ul@mail.ru">podsh_ul@mail.ru</a></p>
             </address>
+            <nav className="footer-nav" aria-label="Полезная информация">
+              <Link href="/catalog">Каталог</Link>
+              <Link href="/delivery">Доставка и заказ</Link>
+              <Link href="/contacts">Контактная информация</Link>
+            </nav>
           </div>
         </footer>
       </body>

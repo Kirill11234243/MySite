@@ -78,6 +78,31 @@ a { color: inherit; text-decoration: none; }
 .contacts { background: #101827; color: white; padding: 32px 0; margin-top: 24px; scroll-margin-top: 90px; }
 .contacts address { font-style: normal; line-height: 1.7; }
 .contacts a { text-decoration: underline; text-underline-offset: 4px; }
+.footer-nav { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 24px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.16); }
+.breadcrumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; color: #657085; font-size: 14px; }
+.breadcrumbs a { color: #334f86; text-decoration: underline; text-underline-offset: 3px; }
+.product-lead { color: #4f5d73; font-size: 17px; line-height: 1.7; }
+.product-info { margin-top: 24px; }
+.product-info h2 { margin-top: 0; }
+.product-info p { color: #4f5d73; line-height: 1.7; }
+.product-info p a, .product-links a { color: #334f86; text-decoration: underline; text-underline-offset: 3px; }
+.product-links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 20px; font-weight: 700; }
+.narrow-container { max-width: 980px; }
+.info-page h1 { max-width: 800px; margin: 8px 0 18px; font-size: clamp(36px, 6vw, 58px); line-height: 1.02; letter-spacing: -.045em; }
+.info-lead { max-width: 780px; margin: 0 0 32px; color: #4f5d73; font-size: 19px; line-height: 1.65; }
+.info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.info-grid h2, .order-steps h2, .info-cta h2 { margin: 0 0 14px; }
+.contact-list { font-style: normal; }
+.contact-list p { display: flex; flex-direction: column; gap: 5px; margin: 0; padding: 14px 0; border-bottom: 1px solid #edf0f5; }
+.contact-list p:last-child { border-bottom: 0; }
+.contact-list a { color: #334f86; font-size: 18px; font-weight: 700; }
+.steps-list { padding-left: 22px; color: #4f5d73; line-height: 1.9; }
+.order-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.order-steps .panel > span { display: inline-flex; margin-bottom: 24px; color: #a66b00; font-weight: 900; }
+.order-steps p, .info-cta p { color: #4f5d73; line-height: 1.65; }
+.info-cta { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin-top: 22px; background: #18243a; color: white; }
+.info-cta p { margin-bottom: 0; color: #c9d2e2; }
+.info-cta .button-secondary { color: white; }
 .cta-section { padding: 4px 0 48px; }
 .cta-card { display: flex; align-items: center; justify-content: space-between; gap: 36px; background: #18243a; color: white; border-radius: 24px; padding: 36px 42px; box-shadow: 0 18px 50px rgba(16,24,39,.16); }
 .cta-card h2 { margin: 7px 0 10px; font-size: 32px; }
@@ -93,7 +118,7 @@ a { color: inherit; text-decoration: none; }
 .faq-list p { color: #5a6679; line-height: 1.6; margin: 0; padding: 0 0 18px; }
 a:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px solid #a66b00; outline-offset: 3px; }
 @media (max-width: 800px) {
-  .grid, .product-layout, .hero-layout, .seo-copy, .faq-list { grid-template-columns: 1fr; }
+  .grid, .product-layout, .hero-layout, .seo-copy, .faq-list, .info-grid, .order-steps { grid-template-columns: 1fr; }
   .header { padding: 14px 0; }
   .header-row { gap: 16px; }
   .nav { gap: 16px; }
@@ -127,6 +152,7 @@ a:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible
   .pagination a { min-height: 46px; display: inline-flex; align-items: center; }
   .contacts { padding: 28px 0; }
   .contacts p { margin: 14px 0; }
+  .info-cta { align-items: flex-start; flex-direction: column; }
 }
 
 @media (max-width: 640px) {
@@ -156,12 +182,13 @@ a:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible
   .cta-card { border-radius: 18px; padding: 24px 20px; }
   .cta-card h2 { font-size: 28px; }
   .cta-actions { display: grid; }
+  .product-links { flex-direction: column; }
 }
 
 @media (max-width: 390px) {
   .header-row { align-items: flex-start; }
   .nav { gap: 8px; }
-  .nav a { padding: 0 2px; }
+  .nav a { padding: 0 1px; font-size: 13px; }
   .hero h1 { font-size: 32px; }
   .catalog-table td { grid-template-columns: 96px minmax(0, 1fr); }
   .pagination { align-items: stretch; flex-direction: column; }
