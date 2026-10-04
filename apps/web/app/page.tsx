@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { apiUrl } from '../lib/api';
+import { fetchApiJson } from '../lib/api';
 
 export const metadata: Metadata = {
   title: 'Купить подшипники с доставкой по России',
@@ -36,13 +36,7 @@ type Product = {
 };
 
 async function getProducts(): Promise<Product[]> {
-  try {
-    const response = await fetch(apiUrl('/products'), { cache: 'no-store' });
-    if (!response.ok) return [];
-    return response.json();
-  } catch {
-    return [];
-  }
+  return await fetchApiJson<Product[]>('/products') || [];
 }
 
 export default async function Home() {

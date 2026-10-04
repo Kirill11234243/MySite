@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { apiUrl } from '../../lib/api';
+import { fetchApiJson } from '../../lib/api';
 
 export const metadata: Metadata = {
   title: 'Каталог подшипников с ценами и остатками',
@@ -17,14 +17,8 @@ type Product = {
 };
 
 async function searchProducts(q: string): Promise<Product[] | null> {
-  try {
-    const url = q ? apiUrl(`/search?q=${encodeURIComponent(q)}`) : apiUrl('/products');
-    const response = await fetch(url, { cache: 'no-store' });
-    if (!response.ok) return null;
-    return response.json();
-  } catch {
-    return null;
-  }
+  const path = q ? `/search?q=${encodeURIComponent(q)}` : '/products';
+  return fetchApiJson<Product[]>(path);
 }
 
 export default async function Catalog({ searchParams }: { searchParams: Promise<{ q?: string; sort?: string; page?: string }> }) {
