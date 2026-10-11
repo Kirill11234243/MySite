@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getCatalogProducts } from '../lib/catalog';
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-static';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.SITE_URL || (process.env.SITE_HOST ? `https://${process.env.SITE_HOST}` : 'http://localhost:3000');

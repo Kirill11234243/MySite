@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: podsh-ul-static
+    runtime: static
+    branch: bearing-shop-mvp
+    buildCommand: npm ci && npm run build:static -w @bearing/web
+    staticPublishPath: apps/web/out
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: SITE_URL
+        value: https://podsh-ul-static.onrender.com

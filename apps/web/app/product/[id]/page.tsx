@@ -1,8 +1,12 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getCatalogProduct } from '../../../lib/catalog';
+import { getCatalogProduct, getCatalogProducts } from '../../../lib/catalog';
 
 const siteUrl = process.env.SITE_URL || (process.env.SITE_HOST ? `https://${process.env.SITE_HOST}` : 'http://localhost:3000');
+
+export async function generateStaticParams() {
+  return (await getCatalogProducts()).map((product) => ({ id: product.id }));
+}
 
 async function getProduct(id: string) {
   return getCatalogProduct(id);
